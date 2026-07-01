@@ -47,3 +47,11 @@
 - **Acción realizada:** Se actualizó `AGENTS.md` para exigir el prompt literal y se corrigió `BITACORA.md` agregando el campo `Prompt literal` a las entradas existentes y a esta interacción.
 - **Archivos afectados:** `AGENTS.md`, `BITACORA.md`.
 - **Resultado:** La bitácora ahora registra explícitamente el prompt literal proporcionado por el usuario en cada interacción.
+
+## 2026-07-01 — Dependencia faltante para Analog Angular Vite plugin
+
+- **Prompt literal:** "arrojo lo siguiente" seguido del log de Vercel donde `vite build` falla cargando `vite.config.ts` con `Error: Cannot find module '@angular/build/private'` desde `@analogjs/vite-plugin-angular`.
+- **Solicitud del usuario:** Reportó el nuevo error de despliegue después de que la instalación con `pnpm@10.12.1`, `esbuild postinstall` y `vite build` ya estaban ejecutándose.
+- **Acción realizada:** Se agregó `@angular/build` como devDependency compatible con Angular 21 para satisfacer el módulo privado requerido por `@analogjs/vite-plugin-angular`.
+- **Archivos afectados:** `package.json`, `BITACORA.md`.
+- **Resultado:** El build de Vercel debería poder resolver `@angular/build/private` al cargar la configuración de Vite.
