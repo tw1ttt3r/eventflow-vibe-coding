@@ -141,3 +141,17 @@
 - **Acción realizada:** Se configuró `root` en `vite.config.ts`, se cambió `build.outDir` a `dist`, se actualizó el script de `src/index.html` a `/main.ts`, y se documentó el comportamiento en `README.md`.
 - **Archivos afectados:** `vite.config.ts`, `src/index.html`, `README.md`, `BITACORA.md`.
 - **Pruebas/comandos relevantes:** `git diff --check -- vite.config.ts src/index.html README.md BITACORA.md`; script Node para verificar `root`, `outDir` y `src/index.html`; `npx --yes pnpm@10.12.1 build` no completó por proxy local 403.
+
+## 2026-07-01 07:22 UTC — Automatización SemVer en merges
+
+- **Prompt literal:** "no vi el funcionamiento de semver de acuerdo a los lineamientos que habia comentado\n\nNueva regla general para el agente, manejaremos semver:\nmajor: hasta que se indique que el aplicativo este completo o se especifique una nueva version\nminor: cada que se haga merge a main\npatch: cada se que haga merge a develop".
+- **Preguntas y respuestas:** No aplica; el prompt reportó una omisión y definió reglas operativas de versionado.
+- **Imágenes adjuntas en base64:** No aplica; no se adjuntaron imágenes.
+- **Versión de agente:** GPT-5.5.
+- **Rama actual de git:** `work`.
+- **Tiempo total de ejecución:** Aproximadamente 8 minutos.
+- **Complejidad:** Baja; 4 archivos modificados o generados.
+- **Resumen del resultado obtenido:** Se reemplazó el release pasivo anterior por un workflow que aplica incrementos SemVer automáticos según la rama destino del merge y conserva una ruta manual para incrementos major.
+- **Acción realizada:** Se creó `.github/workflows/semver-on-merge.yml`, se eliminó el workflow anterior que solo publicaba releases desde la versión existente, se actualizó `README.md` con el comportamiento real de SemVer y se registró esta interacción.
+- **Estado de pruebas/comandos relevantes:** `git diff --check` correcto; validación Python del contenido esperado del workflow correcta; `npx --yes pnpm@10.12.1 build` falló por 403 al descargar `pnpm` desde npm; `./node_modules/.bin/vite build` falló por dependencia local incompleta `@angular/build/private`.
+- **Archivos principales afectados:** `.github/workflows/semver-on-merge.yml`, `.github/workflows/release-on-main-pr-closed.yml`, `README.md`, `BITACORA.md`.
