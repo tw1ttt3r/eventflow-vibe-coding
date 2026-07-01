@@ -1,0 +1,121 @@
+name: SemVer on merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: SemVer increment to apply manually
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+      create_release:
+        description: Create a GitHub release after bumping the version
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  semver:
+    name: Bump SemVer and optionally release
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Resolve target branch and bump type
+        id: semver
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TARGET_BRANCH="${{ github.ref_name }}"
+            BUMP_TYPE="${{ inputs.bump }}"
+            CREATE_RELEASE="${{ inputs.create_release }}"
+          else
+            TARGET_BRANCH="${{ github.base_ref }}"
+            CREATE_RELEASE="false"
+
+            case "$TARGET_BRANCH" in
+              main)
+                BUMP_TYPE="minor"
+                CREATE_RELEASE="true"
+                ;;
+              develop)
+                BUMP_TYPE="patch"
+                ;;
+              *)
+                echo "Unsupported target branch: $TARGET_BRANCH" >&2
+                exit 1
+                ;;
+            esac
+          fi
+
+          echo "target_branch=$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+          echo "bump_type=$BUMP_TYPE" >> "$GITHUB_OUTPUT"
+          echo "create_release=$CREATE_RELEASE" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.semver.outputs.target_branch }}
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: Configure git author
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump package version
+        id: version
+        shell: bash
+        run: |
+          npm version "${{ steps.semver.outputs.bump_type }}" --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push version bump
+        shell: bash
+        run: |
+          git add package.json
+          git commit -m "chore(release): bump version to v${{ steps.version.outputs.version }}"
+          git push origin "HEAD:${{ steps.semver.outputs.target_branch }}"
+
+      - name: Check existing release tag
+        id: existing_release
+        if: steps.semver.outputs.create_release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+        shell: bash
+        run: |
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub release
+        if: steps.semver.outputs.create_release == 'true' && steps.existing_release.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          gh release create "$TAG_NAME" \
+            --target "${{ steps.semver.outputs.target_branch }}" \
+            --title "Release $VERSION" \
+            --generate-notes

@@ -109,12 +109,14 @@ Este repositorio conserva la bitácora de interacciones en `BITACORA.md`. Las re
 
 ### Versionado SemVer
 
-El aplicativo se versiona con SemVer siguiendo estas reglas operativas:
+El aplicativo se versiona con SemVer y el valor fuente vive en `package.json`. La automatización se ejecuta en `.github/workflows/semver-on-merge.yml` con estas reglas operativas:
 
-- `major`: se incrementa cuando se indique que el aplicativo está completo o cuando se especifique una nueva versión mayor.
-- `minor`: se incrementa cada vez que se haga merge a `main`.
-- `patch`: se incrementa cada vez que se haga merge a `develop`.
+- `major`: se incrementa manualmente mediante `workflow_dispatch` cuando se indique que el aplicativo está completo o cuando se especifique una nueva versión mayor.
+- `minor`: se incrementa automáticamente cada vez que un pull request se mergea hacia `main`.
+- `patch`: se incrementa automáticamente cada vez que un pull request se mergea hacia `develop`.
 
 ### Release automático
 
-Cuando un pull request hacia `main` se cierra mediante merge, el workflow `.github/workflows/release-on-main-pr-closed.yml` genera un release de GitHub usando la versión declarada en `package.json`. El tag se crea con el formato `v<version>`, por ejemplo `v0.1.0`.
+Cuando un pull request hacia `main` se cierra mediante merge, el workflow de SemVer incrementa primero la versión `minor` en `package.json`, confirma ese cambio en `main` y después genera un release de GitHub con el tag `v<version>`, por ejemplo `v0.2.0`. Los merges hacia `develop` solo incrementan `patch` y no publican release.
+
+Para cambios `major`, ejecuta manualmente el workflow **SemVer on merge**, selecciona `major` y activa `create_release` solo si también debe publicarse un release desde la rama actual.
