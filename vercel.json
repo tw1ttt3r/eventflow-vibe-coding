@@ -1,7 +1,7 @@
 {
-  "buildCommand": "pnpm build",
+  "buildCommand": "npx --yes pnpm@10.12.1 build",
   "devCommand": "pnpm dev",
-  "installCommand": "pnpm install",
+  "installCommand": "npx --yes pnpm@10.12.1 install --frozen-lockfile=false",
   "framework": "vite",
   "outputDirectory": "dist"
 }
