@@ -7,6 +7,8 @@
 - Cuando el usuario indique una nueva regla general para el agente, agregarla a esta sección.
 - Por cada prompt recibido generar una entrada en esta bitácora.
 - Actualizar el README.md principal con lo necesario y relevante en cuanto a objetivo, tecnologías y datos técnicos.
+- SemVer del aplicativo: `major` se incrementa cuando se indique que el aplicativo está completo o se especifique una nueva versión; `minor` se incrementa cada vez que se haga merge a `main`; `patch` se incrementa cada vez que se haga merge a `develop`.
+- Release automático: cuando un pull request hacia `main` se cierre mediante merge, se debe generar un release del repositorio usando la versión vigente de `package.json`.
 
 ## Entradas
 
@@ -78,3 +80,40 @@
 - **Tiempo total de ejecución:** aprox. 15 minutos.
 - **Complejidad:** alta, más de 10 archivos modificados o generados.
 - **Resumen del resultado obtenido:** Se inicializó una aplicación Angular standalone con Vite, Tailwind CSS, aliases TypeScript, configuración Appwrite, estructura Atomic Design, pruebas unitarias, variables de entorno de ejemplo y documentación principal.
+
+### Entrada 2
+
+- **Prompt literal proporcionado:**
+
+```text
+Nueva regla general para el agente, manejaremos semver:
+major: hasta que se indique que el aplicativo este completo o se especifique una nueva version
+minor: cada que se haga merge a main
+patch: cada se que haga merge a develop
+```
+
+- **Preguntas y respuestas:** No se incluyeron preguntas explícitas en el prompt.
+- **Imágenes adjuntas:** No se adjuntaron imágenes.
+- **Hora y fecha:** 2026-07-01 03:18:06 UTC
+- **Versión de agente:** gpt-5.3-codex
+- **Rama actual de git:** work
+- **Tiempo total de ejecución:** aprox. 3 minutos.
+- **Complejidad:** baja, menos de 5 archivos modificados o generados.
+- **Resumen del resultado obtenido:** Se registró la nueva regla general de versionado SemVer en la bitácora del agente y se documentó en el README principal para referencia operativa del repositorio.
+
+### Entrada 3
+
+- **Prompt literal proporcionado:**
+
+```text
+ademas necesito que al momento de cerrar PR a main, se genere un nuevo release en el repositorio con la versión que en ese momento tenga el package.json
+```
+
+- **Preguntas y respuestas:** No se incluyeron preguntas explícitas en el prompt.
+- **Imágenes adjuntas:** No se adjuntaron imágenes.
+- **Hora y fecha:** 2026-07-01 03:28:00 UTC
+- **Versión de agente:** gpt-5.3-codex
+- **Rama actual de git:** work
+- **Tiempo total de ejecución:** aprox. 8 minutos.
+- **Complejidad:** baja, menos de 5 archivos modificados o generados.
+- **Resumen del resultado obtenido:** Se añadió un workflow de GitHub Actions para crear releases al hacer merge de pull requests hacia `main`, se declaró la versión inicial del paquete y se actualizó la documentación operativa.

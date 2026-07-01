@@ -69,3 +69,15 @@ src/environments     Lectura tipada de variables Vite
 ## Reglas operativas del agente
 
 Este repositorio conserva la bitácora de prompts en `.cardex/bitacora.md` y, cuando aplique, registros de sonar en `.quality/sonar.md`.
+
+### Versionado SemVer
+
+El aplicativo se versiona con SemVer siguiendo estas reglas operativas:
+
+- `major`: se incrementa cuando se indique que el aplicativo está completo o cuando se especifique una nueva versión mayor.
+- `minor`: se incrementa cada vez que se haga merge a `main`.
+- `patch`: se incrementa cada vez que se haga merge a `develop`.
+
+### Release automático
+
+Cuando un pull request hacia `main` se cierra mediante merge, el workflow `.github/workflows/release-on-main-pr-closed.yml` genera un release de GitHub usando la versión declarada en `package.json`. El tag se crea con el formato `v<version>`, por ejemplo `v0.1.0`.
