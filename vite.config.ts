@@ -4,6 +4,11 @@ import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [angular()],
+  build: {
+    rollupOptions: {
+      input: fileURLToPath(new URL('./src/index.html', import.meta.url))
+    }
+  },
   resolve: {
     alias: {
       '@app': fileURLToPath(new URL('./src/app', import.meta.url)),

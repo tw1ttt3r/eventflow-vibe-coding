@@ -55,3 +55,11 @@
 - **Acción realizada:** Se agregó `@angular/build` como devDependency compatible con Angular 21 para satisfacer el módulo privado requerido por `@analogjs/vite-plugin-angular`.
 - **Archivos afectados:** `package.json`, `BITACORA.md`.
 - **Resultado:** El build de Vercel debería poder resolver `@angular/build/private` al cargar la configuración de Vite.
+
+## 2026-07-01 — Entrada HTML de Vite en carpeta src
+
+- **Prompt literal:** "arrojo lo siguiente:" seguido del log de Vercel donde `vite build` falla con `Could not resolve entry module "index.html"` después de transformar 0 módulos.
+- **Solicitud del usuario:** Reportó el nuevo error de build de Vite en Vercel, indicando que Rollup no encontraba `index.html`.
+- **Acción realizada:** Se configuró `vite.config.ts` para usar explícitamente `src/index.html` como entrada de Rollup durante el build.
+- **Archivos afectados:** `vite.config.ts`, `BITACORA.md`.
+- **Resultado:** Vite ya no dependerá de un `index.html` en la raíz del repositorio y usará el HTML existente dentro de `src`.
