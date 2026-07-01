@@ -30,7 +30,7 @@ EventFlow es una base frontend standalone para administrar y descubrir eventos. 
 
 ## Datos técnicos relevantes
 
-- El HTML de entrada vive en `src/index.html`; `vite.config.ts` apunta explícitamente a ese archivo mediante `build.rollupOptions.input`.
+- El proyecto usa `src` como raíz de Vite; `src/index.html` se emite como `dist/index.html` para que Vercel pueda servir la aplicación desde el output directory configurado.
 - El build de producción ejecuta `vite build`.
 - La verificación Angular con `ngc` está separada en `pnpm typecheck` para no bloquear el build de Vercel.
 - `@angular/build` está declarado porque `@analogjs/vite-plugin-angular` necesita resolver `@angular/build/private` durante la carga de configuración.
@@ -80,7 +80,7 @@ pnpm test
 ## Estructura principal
 
 ```text
-src/index.html      Entrada HTML usada por Vite
+src/index.html      Entrada HTML usada por Vite y emitida como dist/index.html
 src/main.ts         Bootstrap de Angular
 src/app/core        Configuración transversal, incluyendo Appwrite
 src/app/shared      Sistema de diseño atómico reusable

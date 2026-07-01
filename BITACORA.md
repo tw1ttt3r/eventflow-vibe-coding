@@ -127,3 +127,17 @@
 - **Acción realizada:** Se actualizó `AGENTS.md`, se reestructuró `BITACORA.md` y se amplió `README.md`.
 - **Archivos afectados:** `AGENTS.md`, `BITACORA.md`, `README.md`.
 - **Pruebas/comandos relevantes:** `git diff --check -- AGENTS.md BITACORA.md README.md`; script Python para verificar campos obligatorios en `AGENTS.md`, cantidad de prompts en `BITACORA.md` y referencias a `BITACORA.md`/`AGENTS.md` en `README.md`.
+
+## 2026-07-01 06:38 UTC — Corrección de 404 en Vercel por salida de Vite
+
+- **Prompt literal:** "en vercel al momento de querer entrar a ver el aplicativo, me dice 404" acompañado de una captura de Vercel Deployment Details donde el estado aparece `Ready Latest`, pero el preview muestra `404: NOT_FOUND`.
+- **Preguntas y respuestas:** No aplica; el prompt reportó un error de acceso al aplicativo.
+- **Imágenes adjuntas en base64:** No disponible desde el sistema de archivos del agente; la imagen se recibió embebida en el chat y se registró su contenido observable: panel de Vercel con deployment `Ready Latest` y preview `404: NOT_FOUND`.
+- **Versión de agente:** GPT-5.5.
+- **Rama actual de git:** `work`.
+- **Tiempo total de ejecución:** Aproximadamente 10 minutos.
+- **Complejidad:** Baja; 4 archivos modificados.
+- **Resumen del resultado obtenido:** Se ajustó la raíz de Vite para que `src/index.html` se emita como `dist/index.html`, evitando que Vercel publique un directorio sin entrada HTML raíz.
+- **Acción realizada:** Se configuró `root` en `vite.config.ts`, se cambió `build.outDir` a `dist`, se actualizó el script de `src/index.html` a `/main.ts`, y se documentó el comportamiento en `README.md`.
+- **Archivos afectados:** `vite.config.ts`, `src/index.html`, `README.md`, `BITACORA.md`.
+- **Pruebas/comandos relevantes:** `git diff --check -- vite.config.ts src/index.html README.md BITACORA.md`; script Node para verificar `root`, `outDir` y `src/index.html`; `npx --yes pnpm@10.12.1 build` no completó por proxy local 403.

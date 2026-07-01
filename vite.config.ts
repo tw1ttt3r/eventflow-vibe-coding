@@ -3,11 +3,11 @@ import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
+  root: fileURLToPath(new URL('./src', import.meta.url)),
   plugins: [angular()],
   build: {
-    rollupOptions: {
-      input: fileURLToPath(new URL('./src/index.html', import.meta.url))
-    }
+    outDir: fileURLToPath(new URL('./dist', import.meta.url)),
+    emptyOutDir: true
   },
   resolve: {
     alias: {
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
+    setupFiles: [fileURLToPath(new URL('./src/test-setup.ts', import.meta.url))],
     globals: true,
     coverage: { provider: 'v8', reporter: ['text', 'lcov'], thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 } }
   }
