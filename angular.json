@@ -1,0 +1,1 @@
+{"version":1,"projects":{"eventflow-vibe-coding":{"projectType":"application","root":".","sourceRoot":"src","architect":{"build":{"builder":"@angular-devkit/build-angular:application","options":{"outputPath":"dist/eventflow-vibe-coding","index":"src/index.html","browser":"src/main.ts","tsConfig":"tsconfig.app.json","assets":["public"],"styles":["src/styles.css"]}}}}}}
