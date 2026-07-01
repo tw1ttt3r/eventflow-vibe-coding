@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "ngc -p tsconfig.app.json && vite build",
+    "build": "vite build",
     "test": "vitest run --coverage",
     "test:watch": "vitest --coverage",
-    "lint": "tsc -p tsconfig.app.json --noEmit"
+    "lint": "tsc -p tsconfig.app.json --noEmit",
+    "typecheck": "ngc -p tsconfig.app.json"
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",
